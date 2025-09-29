@@ -1,22 +1,43 @@
 # PL/SQL WINDOW FUNCTION PROJECT E-CORMMERCIAL PROJECT ANALYTIC  
+
+**Name:** Anysia Irakoze Kamanzi  
+**ID:** 27292  
+**Course:** Database Development with PL/SQL
+**Date:** September 29, 2025
 ## STEP1:Problem Defintion  
 
-***BUSINESS CONTEXT:*** **SHOPRWANDA,A REGIONAL E-CORMMERCE PLATFORM-SALES&ANALYTICS TEAM**  
+**Business Context:**  
+ShopRwanda is a regional e-commerce platform. The Sales & Analytics team monitors thousands of purchases across provinces.  
 
-**data challenge**:from january through december 2025, ShopRwanda recorded thousands of products purchases accross different provences.however,the company lacks clear insights into the top-selling products in each region and quarter,monthly sales growth trends and customer spending behaviour.  
-**expected outcome**:identify the top 5 products per region and quarter,calculate the cumulative monthly sales total,analyse month-over-month growth and classify customers into quartiles based on revenue contribution.these insights will guide inventory planning,targeted marketing and customer retention strategies.  
+**Data Challenge:**  
+From January through December 2025, ShopRwanda recorded thousands of purchases. However, the company lacks clear insights into:  
+- Top-selling products by region and quarter  
+- Monthly sales growth trends  
+- Customer spending behavior  
+
+**Expected Outcome:**  
+This project applies PL/SQL window functions to:  
+- Identify the top 5 products per region and quarter  
+- Calculate cumulative monthly sales totals  
+- Compare month-over-month growth  
+- Segment customers into quartiles by revenue  
+- Compute 3-month moving averages for better forecasting
 ## STEP2:Success Criteria  
-we will use the following 5 measurable goals to guide our SQL WINDOW FUNCTION to analyse for SHOPRWANDA.
-1. ***Top 5 products per region and quarter→RANK()*** 
-indentify which products generate the highest sales in each region per quarter to support promotional campaigns and inventory prioritization  
-2. ***running monthly sales totals→SUM()OVER()***  
-track cumulative monthly sales for each region or product to detect growth patterns and long-term performances trends 
-3. ***Month-0ver-month sales growth→LAG()/LEAD()***
-compare monthly sales against the previous or next month to highlight growth,decline or seasonal changes in customers demands   
-4. ***Customer spending quartiles→NTILE(4)***  
-Segment customers into fours based on annual spending to design targeted marketing strategies for high-values and low-values customers   
-5. ***monthly moving averages of sales→AVG()OVER()***  
-calculater rolling 3-months avaerage sales to smooth out fluctuational and identify underlying sales trends for better forecasting     
+1. **Top 5 products per region & quarter → `RANK()`**  
+   Identify best-performing products for promotions and stock planning.  
+
+2. **Running monthly sales totals → `SUM() OVER()`**  
+   Track cumulative performance and detect growth patterns.  
+
+3. **Month-over-month growth → `LAG()` / `LEAD()`**  
+   Compare sales with previous or next month to highlight seasonal changes.  
+
+4. **Customer quartiles → `NTILE(4)`**  
+   Segment customers into four groups (high to low spenders).  
+
+5. **3-month moving average → `AVG() OVER()`**  
+   Smooth fluctuations to identify long-term trends. 
+
 ## step 3:Database schema  
 i desgined THE DATABASE called E-CORMMERCE using MYSQL WORKBENCH which has 3 related tables which are Customers,products,transactions for ShopRwanda e-commmerce platform the tables are connect by foreign keys.  
 1. CUSTOMERS TABLE
@@ -25,36 +46,17 @@ i desgined THE DATABASE called E-CORMMERCE using MYSQL WORKBENCH which has 3 rel
 ![alt text](<creating table Products.PNG>)
 3. TRANSACTIONS TABLE 
 ![alt text](<creating table Transactions.PNG>)
-<table>
-  <tr>
-    <th>Table Name</th>
-    <th>Purpose</th>
-    <th>Key Columns</th>
-    <th>Example Row</th>
-  </tr>
-  <tr>
-    <td>customers</td>
-    <td>Stores customer information</td>
-    <td>customer_id(PK),First_name,Last_name,email,Region,signup_date</td>
-    <td>Ishimwe,Lambert,ishimwe.lambert1@example.com,Kigali,2025-09-01</td>
-  </tr>
-  <tr>
-    <td>products</td>
-    <td>Product catalog</td>
-    <td>product_id (PK), name, price, category</td>
-    <td>Inyange Milk 1L,1.20,50,Dairy</td>
-  </tr>
-  <tr>
-    <td>transactions</td>
-    <td>Purchase records</td>
-    <td>transaction_id (PK), customer_id (FK → customers), product_id (FK → products), quantity, total_amount, transaction_date</td>
-    <td>21,1,1,3,360000,2025-01-12</td>
-  </tr>
-</table> 
+
+
+| Table        | Purpose              | Key Columns | Example Row |  
+|--------------|----------------------|-------------|-------------|  
+| **customers** | Customer information | customer_id (PK), first_name, last_name, email, region, signup_date | Kamanzi, Anysia, kamanzi.anysia@example.com, Kigali, 2025-09-01 |  
+| **products**  | Product catalog       | product_id (PK), name, price, category | Inyange Milk 1L, 1.20, 50, Dairy |  
+| **transactions** | Purchase records   | transaction_id (PK), customer_id (FK), product_id (FK), quantity, total_amount, transaction_date | 21, 1, 1, 3, 360000, 2025-01-12 |
 
 ## ENTITY RELATION DIAGRAM(ERD) 
 
-![alt text](image-1.png)
+![alt text](image-io.png)
 
 ## STEP 4:WINDOW FUNCTION IMPLEMENTATION  
 
